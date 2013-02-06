@@ -49,7 +49,7 @@ function convertXMLBoardToBoard(xml) {
 		// hotelxml is now of type HotelXML
 		
 		var hotel = new Hotel(hotelxml.$.label);
-		if (hotelxml.tile.length < 3) {
+		if (hotelxml.tile.length < 2) {
 			throw new Error("Given XML contains an illegal hotel (it does not have enough tiles to be a hotel");
 		}
 		

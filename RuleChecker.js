@@ -102,9 +102,6 @@ module.exports = {
 	// [public] foundHotel: Board HotelName Tile -> Hotel
 	// Adds a hotel to the board at the given position 
 	foundHotel: function (board, hotelName, position) {
-		if (!board.hasTile(position)){
-			throw new Error("This tile is not available for use.");
-		}
 		
 		if (board.hasHotelName(hotelName)) {
 			throw new Error ("Hotel already exists.");
@@ -122,7 +119,7 @@ module.exports = {
 		}
 		var connectedtiles = module.exports.findConnectedTiles(alltiles, position);
 		
-		if (connectedtiles.length < 3) {
+		if (connectedtiles.length < 1) {
 			throw new Error("A hotel requires more tiles than what's connected to the given position");
 		}
 		
@@ -130,6 +127,7 @@ module.exports = {
 		
 		board.addHotel(hotel);
 		hotel.addTiles(connectedtiles);
+		hotel.addTile(position);
 		board.removeTiles(connectedtiles);
 		// add info to player class
 		
