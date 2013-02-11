@@ -1,0 +1,204 @@
+********************************************************************************
+**
+**	A C Q U I R E . J S
+**
+**  Data Types
+**
+********************************************************************************
+
+Color is a String, either:
+	* red
+	* blue
+	* green
+	* yellow
+	* purple
+	* brown
+	* orange
+
+HotelName is a String, either:
+	* American
+	* Continental
+	* Festival
+	* Imperial
+	* Sackson
+	* Tower
+	* Worldwide
+	
+Tile is an Object:
+	{ row, column }
+where row is a number from A to I (inclusive)
+where column is a letter from 1 to 12 (inclusive)
+
+Pieces is an Array of Tile
+
+Board is a Javascript object created from the Board module
+
+Hotel is a Javascript object created from the Hotel module
+
+## XMLResults
+
+XMLResults are an Object.  Unfortunately, XMLResults do not have a standard
+design to them, as they are a representation of XML data.  However, they do
+follow a standard pattern.
+
+Consider the following XML:
+
+<board>
+	<tile row="A" column="1" />
+</board>
+
+This XML will produce the following Object:
+	{
+		board:
+		{
+			_:
+			[
+				{
+					tile:
+					{
+						$:
+						{
+							row: A,
+							column: 1
+						}
+					}
+				}
+			]
+		}
+	}
+
+Here's another example:
+
+<query row="A" column="1">
+	<board>
+		<tile row="A" column="1" />
+		<tile row="A" column="2" />
+	</board>
+</query>
+
+This will produce:
+	{
+		query:
+		{
+			$:
+			{
+				row: "A",
+				column: "1"
+			},
+			_:
+			[
+				{
+					board:
+					{
+						_:
+						[
+							{
+								tile:
+								{
+									$:
+									{
+										row: "A",
+										column: "1"
+									}
+								},
+								tile:
+								{
+									$:
+									{
+										row: "A",
+										column: "1"
+									}
+								}
+							}
+						]
+					}
+				}
+			]
+		}
+	}
+	
+Obviously, XMLResults are not very concrete data types we can rely on using
+throughout the application.  That said, we've standardized some of the data
+types, which are defined below.
+
+A TileXML is an Object with the following structure:
+	{
+		tile: {
+			$: {
+			column : String representation of a number between 1 and 12, inclusive
+			row : String, with one letter "A" to "I", inclusive
+			}
+		}
+	}
+
+
+A HotelXML is an Object with the following structure:
+	{
+		$: {
+			name : HotelName
+		},
+		_: [
+				TileXML
+		]
+	}
+
+A BoardXML is an Object with the following structure:
+	{
+		_: [
+			TileXML,
+			TileXML,
+			...
+			HotelXML,
+			HotelXML,
+			...
+		]
+	}
+	
+A turn is:
+	Tile tile
+	String playerName
+	String playerKey
+
+addResults is:
+	playerState startAdd
+	String key
+
+A playerState is one of;
+	String first
+	String add
+
+GameState is one of:
+	0 //Game has not yet started, Players are still allowed to enter
+	1 //Game is in Progress
+	2 //Game has ended
+	
+==========================
+Class definitions
+==========================
+
+A Certificate class has:
+	Hotel hotel
+	Player owner
+
+	// calculates total value
+	currentValue() -> double value
+
+A Player class has:
+	String name
+	String key
+	Double money
+	Certificates[] stock
+	Tiles[] pieces
+
+An Acquire class has:
+	Board board
+	Players[] players
+	Player currentPlayer
+	GameState gameState	
+	
+	// creates a player class
+	addPlayer(name) -> addResults(playerState)/Error
+
+	// starts game
+	start() -> Acquire/Error
+	playerMove(turn) -> Acquire/Error

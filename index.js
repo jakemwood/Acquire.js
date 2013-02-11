@@ -1,0 +1,1 @@
+module.exports = process.env.ACQUIRE_COV ? require('./lib-cov/Acquire') : require('./lib/Acquire');
