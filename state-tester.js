@@ -171,64 +171,59 @@ function buildAcquireFromState(state) {
 // Process incoming XML from stdin
 function processXML(xmlerr, purexml) {
 	for (var i in purexml) {
-		try {
-			var xmlresults = purexml[i];
-			if (xmlresults.setup) {
-				if (XMLTypes.SetupXML(xmlresults.setup)) {
+		var xmlresults = purexml[i];
+		if (xmlresults.setup) {
+			if (XMLTypes.SetupXML(xmlresults.setup)) {
+			
+				var a = new Acquire();
+				for (i in xmlresults.setup.$) {
+					a.newPlayer(xmlresults.setup.$[i]);
+				}
 				
-					var a = new Acquire();
-					for (i in xmlresults.setup.$) {
-						a.newPlayer(xmlresults.setup.$[i]);
-					}
-					
-					console.log(a.generateXML());
-				}
-				else {
-					console.log("<error msg=\"Given XML contains an invalid Setup tag\" />");
-				}
-			}
-			else if (xmlresults.place) {
-				if (XMLTypes.PlaceXML(xmlresults.place)) {
-					var tile = {
-						row: xmlresults.place.$.row,
-						column: xmlresults.place.$.column
-					};
-					var acquire = buildAcquireFromState(xmlresults.place._[0].state);
-					acquire.placeTile(tile, xmlresults.place.$.hotel);
-					console.log(acquire.generateXML());
-				}
-				else {
-					console.log('<error msg="Given XML contains an invalid Place tag" />');
-				}
-			}
-			else if (xmlresults.buy) {
-				if (XMLTypes.BuyXML(xmlresults.buy)) {
-					var acquire = buildAcquireFromState(xmlresults.buy._[0].state);
-					for (var i in xmlresults.buy.$) {
-						acquire.buyStock(xmlresults.buy.$[i]);
-					}
-					console.log(acquire.generateXML());
-				}
-				else {
-					console.log('<error msg="Given XML contains an invalid Buy tag" />');
-				}
-			}
-			else if (xmlresults.done) {
-				if (XMLTypes.DoneXML(xmlresults.done)) {
-					var acquire = buildAcquireFromState(xmlresults.done._[0].state);
-					acquire.nextPlayer();
-					console.log(acquire.generateXML());
-				}
-				else {
-					console.log('<error msg="Given XML contains an invalid Done tag" />');
-				}
+				console.log(a.generateXML());
 			}
 			else {
-				console.log("unrecognized aip call");
+				console.log("<error msg=\"Given XML contains an invalid Setup tag\" />");
 			}
 		}
-		catch (ex) {
-			console.log('<error msg="' + ex + '" />');
+		else if (xmlresults.place) {
+			if (XMLTypes.PlaceXML(xmlresults.place)) {
+				var tile = {
+					row: xmlresults.place.$.row,
+					column: xmlresults.place.$.column
+				};
+				var acquire = buildAcquireFromState(xmlresults.place._[0].state);
+				acquire.placeTile(tile, xmlresults.place.$.hotel);
+				console.log(acquire.generateXML());
+			}
+			else {
+				console.log('<error msg="Given XML contains an invalid Place tag" />');
+			}
+		}
+		else if (xmlresults.buy) {
+			if (XMLTypes.BuyXML(xmlresults.buy)) {
+				var acquire = buildAcquireFromState(xmlresults.buy._[0].state);
+				for (var i in xmlresults.buy.$) {
+					acquire.buyStock(xmlresults.buy.$[i]);
+				}
+				console.log(acquire.generateXML());
+			}
+			else {
+				console.log('<error msg="Given XML contains an invalid Buy tag" />');
+			}
+		}
+		else if (xmlresults.done) {
+			if (XMLTypes.DoneXML(xmlresults.done)) {
+				var acquire = buildAcquireFromState(xmlresults.done._[0].state);
+				acquire.nextPlayer();
+				console.log(acquire.generateXML());
+			}
+			else {
+				console.log('<error msg="Given XML contains an invalid Done tag" />');
+			}
+		}
+		else {
+			console.log("unrecognized aip call");
 		}
 	}
 }
@@ -246,6 +241,14 @@ process.stdin.on('data', function(chunk) {
 	}
 	catch (ex) {
 		if (ex.message.indexOf('<impossible') == 0) {
+			console.log(ex.message);
+		}
+		else {
+			console.log("<error msg=\"" + ex.message.replace(/\n/g, ', ') + "\" />");
+		}
+	}
+});
+{
 			console.log(ex.message);
 		}
 		else {

@@ -171,7 +171,9 @@ GameState is one of:
 	0 //Game has not yet started, Players are still allowed to enter
 	1 //Game is in Progress
 	2 //Game has ended
-	
+
+shareCount is a natural number less than 26
+
 ==========================
 Class definitions
 ==========================

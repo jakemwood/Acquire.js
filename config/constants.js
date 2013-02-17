@@ -39,6 +39,7 @@ module.exports = {
 		{"2":200}],
 	FOUNDING_STOCK_AMT: 1,
 	SHARES_MAX: 25,
+	SHARES_PER_PLAY: 3,
 	HOTEL_COLORS:
 		{"American": "red",
 		"Continental": "blue",
@@ -47,11 +48,9 @@ module.exports = {
 		"Sackson": "purple",
 		"Tower": "brown",
 		"Worldwide": "orange"},
-		CASH: 6000,
-		HOTEL_SAFETY_LENGTH: 11,
-		MAJORITY_BONUS: 10,
-		MINORITY_BONUS: 5,
-		
-	
-	
-	}
+	CASH: 6000,
+	HOTEL_SAFETY_LENGTH: 11,
+	MAJORITY_BONUS: 10,
+	MINORITY_BONUS: 5,
+	ALL_HOTELS: ['American', 'Continental', 'Festival', 'Imperial', 'Sackson', 'Tower', 'Worldwide']
+}
