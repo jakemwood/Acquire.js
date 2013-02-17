@@ -84,4 +84,4 @@ app.get('/', function(req, res) {
 	res.send(html);
 });
 
-app.listen(process.ENV.PORT || 9000);
+app.listen(process.env.PORT || 9000);
