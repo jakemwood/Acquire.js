@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"dependencies": {
 		"express": "*",
-		"stablexml": "https://github.com/yakkob/stablexml"
+		"stablexml": "git://github.com/yakkob/stablexml"
 	},
 	"engines": {
 		"node": ">= 0.8.x",
