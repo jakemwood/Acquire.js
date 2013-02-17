@@ -1,3 +1,5 @@
 node_modules
 lib-cov
 node
+.svn
+.DS_Store
