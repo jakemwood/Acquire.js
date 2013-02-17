@@ -339,3 +339,37 @@ suite('Acquire', function() {
 		game.generateXML();
 	});
 });
+
+suite('Ordered Strategy', function() {
+	var Strategy = require('../lib/ordered.js');
+	var Acquire = require('../lib-cov/Acquire.js');
+	
+	var game;
+	
+	setup(function() {
+		game = new Acquire();
+		game.newPlayer('James');
+	});
+	
+	test('makeMove', function() {
+		console.log(Strategy);
+		console.log(Strategy.makeMove(game));
+	});
+});
+
+suite('Random Strategy', function() {
+	var Strategy = require('../lib/random.js');
+	var Acquire = require('../lib-cov/Acquire.js');
+	
+	var game;
+	
+	setup(function() {
+		game = new Acquire();
+		game.newPlayer('James');
+	});
+	
+	test('makeMove', function() {
+		console.log(Strategy);
+		console.log(Strategy.makeMove(game));
+	});
+});
